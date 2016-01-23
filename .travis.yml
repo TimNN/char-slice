@@ -1,0 +1,40 @@
+sudo: false
+language: rust
+
+addons:
+  apt:
+    packages:
+      - libcurl4-openssl-dev
+      - libelf-dev
+      - libdw-dev
+      - binutils-dev
+
+rust:
+  - nightly
+  - beta
+  - stable
+  - 1.0.0
+
+before_script:
+  - |
+      pip install 'travis-cargo<0.2' --user &&
+      export PATH=$HOME/.local/bin:$PATH
+
+script:
+  - |
+      travis-cargo build &&
+      travis-cargo test &&
+      travis-cargo bench &&
+      travis-cargo --only stable doc
+after_success:
+  - travis-cargo --only stable doc-upload
+  # (the verify argument mitigates kcov crashes due to malformed debuginfo, at the
+  # cost of some speed <https://github.com/huonw/travis-cargo/issues/12>)
+  - travis-cargo coveralls --no-sudo --verify
+
+env:
+  global:
+    # override the default `--features unstable` used for the nightly branch (optional)
+    - TRAVIS_CARGO_NIGHTLY_FEATURE=""
+    # encrypted github token for doc upload (see `GH_TOKEN` link above)
+    - secure: "tMZtkb1LbOMrORuIqALSJrDWIW/Vkxbq5Gdl76+/cSjkIVw1VmqTbDQi115rfYm4oZdy6ETHc8AxaOjuf3ANY+4pvA3qlxwIN3iN3cgzbRSnc6tQgxKac+itLRIqfAxj+K3kWVMgzvsKSR9K4XBU+LIC/o8PKx4/q2ES5G+hsmChH3vUP8/KPzivtyoQoskKQLKAvoGM1DKmz1mrv2WCx33kFpLKfUrnNP7ZXsIV9hB2nAj/mlFqGisLwA8zh6qsXGNUO1gqbGRPuf88kkQ13Kezgx5pWfKymCH8DlslTrg8BYHRr54vJ53mc6jTOjUVIXR/7LyFpsQmupMEaPoFnl+/tGTER6u1oPopB09v9j5wq0gXFdqidnZ/Cp0RcMC9WX/AAWgeEutREKlDcCdGFltB0XdjnWlELWMka9wje/A3d1TVIwmIFEBMKDSjCD0FMTb2z+uCh071YPoy333hRg18oIZpguNfyidDtcRnopXAUbMDvVbnE63S7AalTmlppB833QbQKt6AprjBxmwvGn8c08Pylvl2hEY7jZ69PcfVeDsU4EhgG+8vSMSeEGTZztGLJAIOGwIuqhYtem6mpBtloOajAspiKqz2xz531NFaVcikfF+Q/wuZToX3WZEonuw+ciPhkC83+C9/w6t2lyqsg5zV2rvfgL4f/r9IOTI="
