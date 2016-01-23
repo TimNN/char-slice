@@ -8,5 +8,5 @@ keywords = ["string", "char", "slice"]
 readme = "README.md"
 repository = "https://github.com/TimNN/char-slice"
 homepage = "https://github.com/TimNN/char-slice"
-documentation = "https://timnn.github.io/char-slice/char_slice"
+documentation = "https://timnn.github.io/char-slice/"
 
