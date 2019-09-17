@@ -27,7 +27,7 @@ script:
       travis-cargo test &&
       travis-cargo bench &&
       travis-cargo --only stable doc &&
-      travis-cargo fmt -- --check
+      travis-cargo fmt -- -- --check
 after_success:
   - travis-cargo --only stable doc-upload
   # (the verify argument mitigates kcov crashes due to malformed debuginfo, at the
