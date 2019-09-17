@@ -49,7 +49,9 @@ fn utf8_start_byte(b: u8) -> bool {
 }
 
 fn char_slice(s: &str, start: usize, end: usize) -> &str {
-    if end <= start { return "" }
+    if end <= start {
+        return "";
+    }
 
     let mut bidx = 0; // byte index
     let mut cidx = 0; // char index
@@ -74,7 +76,7 @@ fn char_slice(s: &str, start: usize, end: usize) -> &str {
 
     // did not find start
     if start >= cidx {
-        return ""
+        return "";
     }
 
     // did find start but not end
@@ -83,23 +85,23 @@ fn char_slice(s: &str, start: usize, end: usize) -> &str {
 
 #[test]
 fn substr_test() {
-    assert_eq!(  "".char_slice(0 .. 0), "");
-    assert_eq!(  "".char_slice(0 .. 1), "");
-    assert_eq!( "a".char_slice(1 .. 2), "");
-    assert_eq!( "a".char_slice(0 .. 1), "a");
-    assert_eq!( "a".char_slice(0 .. 2), "a");
-    assert_eq!( "a".char_slice(0 .. 0), "");
-    assert_eq!("ab".char_slice(0 .. 1), "a");
-    assert_eq!("ab".char_slice(1 .. 2), "b");
-    assert_eq!("ab".char_slice(0 .. 2), "ab");
+    assert_eq!("".char_slice(0..0), "");
+    assert_eq!("".char_slice(0..1), "");
+    assert_eq!("a".char_slice(1..2), "");
+    assert_eq!("a".char_slice(0..1), "a");
+    assert_eq!("a".char_slice(0..2), "a");
+    assert_eq!("a".char_slice(0..0), "");
+    assert_eq!("ab".char_slice(0..1), "a");
+    assert_eq!("ab".char_slice(1..2), "b");
+    assert_eq!("ab".char_slice(0..2), "ab");
 
-    assert_eq!("äöü".char_slice(0 .. 0), "");
-    assert_eq!("äöü".char_slice(4 .. 5), "");
-    assert_eq!("äöü".char_slice(0 .. 1), "ä");
-    assert_eq!("äöü".char_slice(1 .. 2), "ö");
-    assert_eq!("äöü".char_slice(2 .. 3), "ü");
-    assert_eq!("äöü".char_slice(0 .. 2), "äö");
-    assert_eq!("äöü".char_slice(1 .. 3), "öü");
-    assert_eq!("äöü".char_slice(0 .. 3), "äöü");
-    assert_eq!("äöü".char_slice(0 .. 4), "äöü");
+    assert_eq!("äöü".char_slice(0..0), "");
+    assert_eq!("äöü".char_slice(4..5), "");
+    assert_eq!("äöü".char_slice(0..1), "ä");
+    assert_eq!("äöü".char_slice(1..2), "ö");
+    assert_eq!("äöü".char_slice(2..3), "ü");
+    assert_eq!("äöü".char_slice(0..2), "äö");
+    assert_eq!("äöü".char_slice(1..3), "öü");
+    assert_eq!("äöü".char_slice(0..3), "äöü");
+    assert_eq!("äöü".char_slice(0..4), "äöü");
 }
