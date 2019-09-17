@@ -18,14 +18,16 @@ rust:
 before_script:
   - |
       pip install 'travis-cargo<0.2' --user &&
-      export PATH=$HOME/.local/bin:$PATH
+      export PATH=$HOME/.local/bin:$PATH &&
+      rustup component add rustfmt
 
 script:
   - |
       travis-cargo build &&
       travis-cargo test &&
       travis-cargo bench &&
-      travis-cargo --only stable doc
+      travis-cargo --only stable doc &&
+      travis-cargo fmt -- -- --check
 after_success:
   - travis-cargo --only stable doc-upload
   # (the verify argument mitigates kcov crashes due to malformed debuginfo, at the
